@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib import messages
+#from django.core.mail import send_mail
 from .models import teamMember
 from cars.models import Car
 
@@ -33,5 +35,11 @@ def about(request):
 def services(request):
     return render(request, 'pages/services.html')
 
+
 def contact(request):
+    if request.method == 'POST':
+        # suppose to send_mail
+        messages.success(request, 'Thank you for contacting us. We will get back to you shortly')
+        return redirect('contact')
+
     return render(request, 'pages/contact.html')
