@@ -25,7 +25,7 @@ SECRET_KEY = '6jgu)+iezem1n+wmne(zkf)=(+h5cn4byc7k8btckcm)xyt%06'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-carzone-env1.eba-ir39ypv2.us-west-2.elasticbeanstalk.com']
+ALLOWED_HOSTS = ['django-carzone-env1.eba-ir39ypv2.us-west-2.elasticbeanstalk.com','www.lynz1701.com']
 
 LOGIN_REDIRECT_URL = 'dashboard'
 SOCIALACCOUNT_LOGIN_ON_GET=True 
@@ -89,14 +89,26 @@ WSGI_APPLICATION = 'carzone.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'carzone_db',
-        'USER': 'postgres',
-        'PASSWORD': '123456',
-        'HOST': 'localhost',
+if 'RDS_DB_NAME' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': os.environ['RDS_DB_NAME'],
+            'USER': os.environ['RDS_USERNAME'],
+            'PASSWORD': os.environ['RDS_PASSWORD'],
+            'HOST': os.environ['RDS_HOSTNAME'],
+            'PORT': os.environ['RDS_PORT'],
+        }
     }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'carzone_db',
+            'USER': 'postgres',
+            'PASSWORD': '123456',
+            'HOST': 'localhost',
+        }
 }
 
 

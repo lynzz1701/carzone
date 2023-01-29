@@ -33,8 +33,12 @@ def car_detail(request, id):
     return render(request, 'cars/car_detail.html', data)
 
 def search(request):
-    min_price, max_price = request.GET['min_price'], request.GET['max_price']
-    cars = Car.objects.order_by('-created_date').filter(price__gte=min_price, price__lte=max_price)
+    
+    cars = Car.objects.order_by('-created_date')
+    
+    if 'min_price' in request.GET:
+        min_price, max_price = request.GET['min_price'], request.GET['max_price']
+        cars = cars.filter(price__gte=min_price, price__lte=max_price)
     
     if 'keyword' in request.GET:
         keyword = request.GET['keyword']
